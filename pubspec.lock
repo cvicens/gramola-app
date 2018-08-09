@@ -71,11 +71,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.2"
+  fluro:
+    dependency: "direct main"
+    description:
+      name: fluro
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.3.4"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_flux:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "05ff0f15f3e180b2e9a02f120b0627465c457513"
+      url: "https://github.com/google/flutter_flux"
+    source: git
+    version: "4.1.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -95,6 +111,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.5"
+  gramola_timeline:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "v0.0.2"
+      resolved-ref: "3d78a09b91ffefa6e68209d7419e390a25c07b09"
+      url: "https://github.com/cvicens/gramola-timeline"
+    source: git
+    version: "0.0.1"
   html:
     dependency: transitive
     description:
@@ -103,7 +128,7 @@ packages:
     source: hosted
     version: "0.13.3"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -123,6 +148,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.2"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.15.7"
   io:
     dependency: transitive
     description:
@@ -367,4 +399,4 @@ packages:
     source: hosted
     version: "2.1.13"
 sdks:
-  dart: ">=2.0.0-dev.52.0 <=2.0.0-dev.58.0.flutter-f981f09760"
+  dart: ">=2.0.0-dev.58.0 <=2.0.0-dev.58.0.flutter-f981f09760"
