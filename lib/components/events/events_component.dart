@@ -34,6 +34,7 @@ class _EventsComponentState extends State<EventsComponent>
   final GlobalKey<AnimatedListState> _listKey = new GlobalKey<AnimatedListState>();
 
   // Never write to these stores directly. Use Actions.
+  InitStore initStore;
   EventsStore eventsStore;
   LoginStore loginStore;
 
@@ -41,6 +42,7 @@ class _EventsComponentState extends State<EventsComponent>
   void initState() {
     super.initState();
 
+    initStore = listenToStore(initStoreToken);
     eventsStore = listenToStore(eventStoreToken);
     loginStore = listenToStore(loginStoreToken);
 
@@ -56,7 +58,7 @@ class _EventsComponentState extends State<EventsComponent>
     try {
       fetchEventsRequestAction('');
       String _uri = country == 'ANY' || city == 'ANY' ? '' : country + '/' + city;
-      dynamic response = await http.get(Connections.eventsApi + '/' + _uri);
+      dynamic response = await http.get(initStore.connections.eventsApi + '/' + _uri);
       if (response.statusCode == 200) {
         List<Event> events = (json.decode(response.body) as List).map((e) => new Event.fromJson(e)).toList();
         fetchEventsSuccessAction(events);
@@ -170,7 +172,7 @@ class _EventsComponentState extends State<EventsComponent>
             child: new Container(
               child: new ListView.builder(
                 itemCount: eventsStore.events.length,
-                itemBuilder: (_, index) => new EventRow(Connections.imagesApi, eventsStore.events[index], loginStore.username),
+                itemBuilder: (_, index) => new EventRow(initStore.connections.imagesApi, eventsStore.events[index], loginStore.username),
               ),
             ),
           )

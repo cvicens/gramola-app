@@ -48,6 +48,7 @@ class _LoginComponentState extends State<LoginComponent>
   final formKey = new GlobalKey<FormState>();
 
   // Never write to these stores directly. Use Actions.
+  InitStore initStore;
   LoginStore loginStore;
 
   String _email;
@@ -57,6 +58,7 @@ class _LoginComponentState extends State<LoginComponent>
   void initState() {
     super.initState();
 
+    initStore = listenToStore(initStoreToken);
     loginStore = listenToStore(loginStoreToken);
   }
 
@@ -73,7 +75,7 @@ class _LoginComponentState extends State<LoginComponent>
   void _performLogin() async {
     try {
       authenticateRequestAction(_email);
-      dynamic response = await http.post(Connections.loginApi, body: {"email": _email, "password": _password});
+      dynamic response = await http.post(initStore.connections.loginApi, body: {"email": _email, "password": _password});
       print("Response status: ${response.statusCode}");
       //print("Response body: ${response.body}");
       if (response.statusCode == 200) {
@@ -121,8 +123,8 @@ class _LoginComponentState extends State<LoginComponent>
             ),
             const SizedBox(height: 32.0),
             new RaisedButton(
-              child: new Text('Login'),
-              onPressed: _submit
+              child: new Text(initStore.isInitialized ? 'Login' : 'Init in progess...'),
+              onPressed: initStore.isInitialized ? _submit : null
             ),
             const Expanded(child: const SizedBox()),
           ],

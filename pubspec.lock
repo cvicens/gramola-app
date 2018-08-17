@@ -111,15 +111,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.5"
-  gramola_timeline:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: "v0.0.2"
-      resolved-ref: "3d78a09b91ffefa6e68209d7419e390a25c07b09"
-      url: "https://github.com/cvicens/gramola-timeline"
-    source: git
-    version: "0.0.1"
   html:
     dependency: transitive
     description:

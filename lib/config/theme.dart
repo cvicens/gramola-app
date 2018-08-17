@@ -41,14 +41,14 @@ class TextStyles {
     color: GramolaColors.eventTitle,
     fontFamily: 'Cataclysme',
     fontWeight: FontWeight.w600,
-    fontSize: 32.0
+    fontSize: 22.0
   );
 
   static const TextStyle eventArtist = const TextStyle(
     color: GramolaColors.eventArtist,
     fontFamily: 'FrederickatheGreat',
     fontWeight: FontWeight.bold,
-    fontSize: 28.0
+    fontSize: 24.0
   );
 
   static const TextStyle eventLocation = const TextStyle(

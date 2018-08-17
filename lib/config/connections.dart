@@ -1,10 +1,30 @@
-class Connections {
-  const Connections();
+import 'dart:async';
+import 'dart:convert';
 
-  static const base = 'apps.192.168.50.100.nip.io';
-  static const loginApi = 'http://demo2703148.mockable.io/api/login';
-  static const eventsApi = 'http://events-gramola-cicd.' + base + '/api/events';
-  static const imagesApi = 'http://files-gramola-cicd.' + base + '/api/files';
-  static const timelineApi = 'http://timeline-gramola-cicd.' + base + '/api/timeline';
+import 'package:flutter/services.dart';
+
+class Connections {
+  final String loginApi;
+  final String eventsApi;
+  final String imagesApi;
+
+  const Connections({this.loginApi, this.eventsApi, this.imagesApi});
+
+  factory Connections.fromJson(Map<String, dynamic> json) {
+    return new Connections(
+      loginApi:  json['loginApi'],
+      eventsApi: json['eventsApi'],
+      imagesApi: json['imagesApi']
+    );
+  }
+
+  static Future<Connections> initConnections() async {
+    String connectionsString = await rootBundle.loadString('data/connections.json');
+  
+    Map<String, dynamic> json = (new JsonCodec()).decode(connectionsString);
+    
+    return new Connections.fromJson (json);
+  }
 }
+
 
