@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:gramola/model/subject.dart';
 
-import 'package:gramola/config/connections.dart';
 import 'package:gramola/config/stores.dart';
 
 const String BACKGROUND_PHOTO = 'images/background.jpg';
