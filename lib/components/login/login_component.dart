@@ -121,7 +121,7 @@ class _LoginComponentState extends State<LoginComponent>
             ),
             const SizedBox(height: 32.0),
             new RaisedButton(
-              child: new Text('Init in progress...'),
+              child: new Text('Login'),
               onPressed: _submit
             ),
             const Expanded(child: const SizedBox()),

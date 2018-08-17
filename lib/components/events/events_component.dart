@@ -44,13 +44,19 @@ class _EventsComponentState extends State<EventsComponent>
     eventsStore = listenToStore(eventStoreToken);
     loginStore = listenToStore(loginStoreToken);
 
-    _fetchEvents();
+    setLocationAction(new Location(country: 'ANY', city: 'ANY'));
+    _fetchAllEvents();
   }
 
-  void _fetchEvents() async {
+  void _fetchAllEvents() {
+    _fetchEvents('ANY', 'ANY');
+  }
+
+  void _fetchEvents(String country, String city) async {
     try {
       fetchEventsRequestAction('');
-      dynamic response = await http.get(Connections.eventsApi + "/" + eventsStore.currentCountry + "/" + eventsStore.currentCity);
+      String _uri = country == 'ANY' || city == 'ANY' ? '' : country + '/' + city;
+      dynamic response = await http.get(Connections.eventsApi + '/' + _uri);
       if (response.statusCode == 200) {
         List<Event> events = (json.decode(response.body) as List).map((e) => new Event.fromJson(e)).toList();
         fetchEventsSuccessAction(events);
@@ -72,12 +78,83 @@ class _EventsComponentState extends State<EventsComponent>
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
 
+  void _setLocationAction(Location location) {
+    setLocationAction(location);
+    Navigator.pop(context);
+    _fetchEvents(location.country, location.city);
+  }
+
+  void _showChangeLocationDialog() {
+    Container formSection = new Container(
+      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+      child:  new Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          new RadioListTile<LocationEnum>(
+            title: const Text('Madrid'),
+            value: LocationEnum.madrid,
+            groupValue: eventsStore.currentLocationEnum,
+            onChanged: (LocationEnum value) { _setLocationAction(new Location(country: 'SPAIN', city: 'MADRID')); },
+          ),
+          new RadioListTile<LocationEnum>(
+            title: const Text('Barcelona'),
+            value: LocationEnum.barcelona,
+            groupValue: eventsStore.currentLocationEnum,
+            onChanged: (LocationEnum value) { _setLocationAction(new Location(country: 'SPAIN', city: 'BARCELONA')); },
+          ),
+          new RadioListTile<LocationEnum>(
+            title: const Text('Paris'),
+            value: LocationEnum.paris,
+            groupValue: eventsStore.currentLocationEnum,
+            onChanged: (LocationEnum value) { _setLocationAction(new Location(country: 'FRANCE', city: 'PARIS')); },
+          ),
+          new RadioListTile<LocationEnum>(
+            title: const Text('London'),
+            value: LocationEnum.london,
+            groupValue: eventsStore.currentLocationEnum,
+            onChanged: (LocationEnum value) { _setLocationAction(new Location(country: 'UK', city: 'LONDON')); },
+          ),
+          new RadioListTile<LocationEnum>(
+            title: const Text('New York'),
+            value: LocationEnum.new_york,
+            groupValue: eventsStore.currentLocationEnum,
+            onChanged: (LocationEnum value) { _setLocationAction(new Location(country: 'US', city: 'NEW YORK')); },
+          ),
+          new RadioListTile<LocationEnum>(
+            title: const Text('Any'),
+            value: LocationEnum.any,
+            groupValue: eventsStore.currentLocationEnum,
+            onChanged: (LocationEnum value) { _setLocationAction(new Location(country: 'ANY', city: 'ANY')); },
+          )
+        ],
+      )    
+    );
+
+    showModalBottomSheet<void>(context: context, builder: (BuildContext context) {
+      return new Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            formSection
+          ]
+      );
+    });
+  }
+
+  String capitalize(String s) {
+    return s[0].toUpperCase() + s.substring(1).toLowerCase();
+  }
+
+  String capitalizeWords(String s) {
+    return s.splitMapJoin(" ", onMatch: (m) => m.group(0), onNonMatch: (m) => capitalize(m));
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       key: scaffoldKey,
       appBar: new AppBar(
-        title: new Text('List of events'),
+        title: new Text('List of events' + (eventsStore.currentCity != null && eventsStore.currentCity != 'ANY'? ' in ' + capitalizeWords(eventsStore.currentCity) : '')),
         leading: new IconButton(
             tooltip: 'Previous choice',
             icon: const Icon(Icons.arrow_back),
@@ -98,6 +175,11 @@ class _EventsComponentState extends State<EventsComponent>
             ),
           )
         ]
+      ),
+      floatingActionButton: new FloatingActionButton(
+        tooltip: 'Add', // used by assistive technologies
+        child: new Icon(Icons.location_city),
+        onPressed: _showChangeLocationDialog
       )
     );
   }

@@ -65,5 +65,12 @@ class TextStyles {
     fontSize: 18.0
   );
 
+  static const TextStyle bottomSheetTitle = const TextStyle(
+    //color: GramolaColors.eventArtist,
+    //fontFamily: 'FrederickatheGreat',
+    fontWeight: FontWeight.bold,
+    //fontSize: 12.0
+  );
+
 }
 

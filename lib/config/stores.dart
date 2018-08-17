@@ -1,8 +1,10 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_flux/flutter_flux.dart';
 
 import 'package:gramola/model/event.dart';
 import 'package:gramola/model/subject.dart';
+
+// At the top level:
+enum LocationEnum { madrid, barcelona, paris, london, new_york, any }
 
 class Location {
   final String country;
@@ -58,6 +60,8 @@ class LoginStore extends BaseStore {
 }
 
 class EventsStore extends BaseStore {
+  LocationEnum _location = LocationEnum.madrid;
+
   String _currentCountry = 'SPAIN';
   String _currentCity = 'MADRID';
 
@@ -68,6 +72,8 @@ class EventsStore extends BaseStore {
   List<Event> _events = <Event>[];
   Event _currentEvent;
   
+  LocationEnum get currentLocationEnum => _location;
+
   String get currentCountry => _currentCountry;
   String get currentCity => _currentCity;
 
@@ -113,6 +119,26 @@ class EventsStore extends BaseStore {
       assert(location != null);
       _currentCountry = location.country;
       _currentCity = location.city;
+
+      switch (location.city) {
+        case 'MADRID':
+          _location = LocationEnum.madrid;
+          break;
+        case 'BARCELONA':
+          _location = LocationEnum.barcelona;
+          break;
+        case 'PARIS':
+          _location = LocationEnum.paris;
+          break;
+        case 'LONDON':
+          _location = LocationEnum.london;
+          break;
+        case 'NEW YORK':
+          _location = LocationEnum.new_york;
+          break;
+        default:
+          _location = LocationEnum.any;
+      }
     });
 
     triggerOnAction(selectEvent, (Event event) {
