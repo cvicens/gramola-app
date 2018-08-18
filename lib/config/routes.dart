@@ -9,5 +9,6 @@ class Routes {
     });
     router.define("/", handler: loginHandler);
     router.define("/events", handler: eventsRouteHandler);
+    router.define("/timeline", handler: timelineRouteHandler);
   }
 }

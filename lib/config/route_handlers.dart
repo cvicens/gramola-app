@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:gramola/components/login/login_component.dart';
 import 'package:gramola/components/events/events_component.dart';
+import 'package:gramola/config/connections.dart';
 
 import 'package:gramola_timeline/gramola_timeline.dart';
 import 'package:gramola_timeline/config/stores.dart';
@@ -24,7 +25,8 @@ var timelineRouteHandler = new Handler(handlerFunc: (BuildContext context, Map<S
     new TimelineConfiguration(
       eventId: eventId,
       userId: userId,
-      imagesBaseUrl: ''
+      timelineApi: Connections.connections.timelineApi,
+      imagesBaseUrl: Connections.connections.imagesApi
     )
   );
 }); 

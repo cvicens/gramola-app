@@ -1,5 +1,6 @@
 {
     "loginApi" : "http://demo2703148.mockable.io/api/login",
     "eventsApi" : "http://events-gramola-cicd.apps.192.168.50.100.nip.io/api/events",
-    "imagesApi" : "http://files-gramola-cicd.apps.192.168.50.100.nip.io/api/files"
+    "imagesApi" : "http://files-gramola-cicd.apps.192.168.50.100.nip.io/api/files",
+    "timelineApi" : "http://timeline-gramola-cicd.apps.192.168.50.100.nip.io/api/timeline"
 }

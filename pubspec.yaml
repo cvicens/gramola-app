@@ -27,7 +27,7 @@ dependencies:
   gramola_timeline:
     git:
       url: https://github.com/cvicens/gramola-timeline
-      ref: v0.0.2
+      ref: v0.0.3
 
 dev_dependencies:
   flutter_test:
