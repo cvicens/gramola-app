@@ -5,6 +5,7 @@ import 'package:flutter_flux/flutter_flux.dart';
 import 'package:fluro/fluro.dart';
 
 import 'package:gramola/config/application.dart';
+import 'package:gramola/config/connections.dart';
 import 'package:gramola/config/routes.dart';
 import 'package:gramola/config/stores.dart';
 import 'package:gramola/config/theme.dart';
@@ -19,6 +20,7 @@ class AppComponentState extends State<AppComponent>
             with StoreWatcherMixin<AppComponent> {
 
   // Never write to these stores directly. Use Actions.
+  InitStore initStore;
   EventsStore eventsStore;
 
   AppComponentState() {
@@ -26,8 +28,6 @@ class AppComponentState extends State<AppComponent>
     Routes.configureRoutes(router);
     Application.router = router;
   }
-
-  
 
   /// Override this function to configure which stores to listen to.
   ///
@@ -41,15 +41,34 @@ class AppComponentState extends State<AppComponent>
   void initState() {
     super.initState();
 
-    // Custom handler
+    initStore = listenToStore(initStoreToken);
     eventsStore = listenToStore(eventStoreToken, handleEventStoreChanged);
+
+    // Init class, resources...
+    _init();
+  }
+
+  void _init() async {
+    try {
+      initRequestAction();
+      Connections connections = await Connections.initConnections();
+      print("Connections: ${connections}");
+      if (connections != null) {
+        initSuccessAction(connections);
+      } else {
+        initFailureAction('Error: no connections available');
+        //_showSnackbar('Init failed!');
+      }
+    } on PlatformException catch (e) {
+      initFailureAction(e.message);
+      //_showSnackbar('Init failed!');
+    }
   }
 
   void handleEventStoreChanged(Store store) {
     EventsStore eventStore = store;
     if (eventStore.currentEvent == null) {
         // Cleaning
-        print('>>>> Sample store-changed handler');
     }
     setState(() {});
   }

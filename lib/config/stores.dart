@@ -1,4 +1,5 @@
 import 'package:flutter_flux/flutter_flux.dart';
+import 'package:gramola/config/connections.dart';
 
 import 'package:gramola/model/event.dart';
 import 'package:gramola/model/subject.dart';
@@ -26,6 +27,35 @@ class BaseStore extends Store {
   String get errorMessage => _errorMessage;
 
   BaseStore();
+}
+
+class InitStore extends BaseStore {
+  bool _initialized = false;
+  
+  Connections _connections;
+
+  bool get isInitialized => _initialized;
+  Connections get connections => _connections;
+
+  InitStore() {
+    triggerOnAction(initRequestAction, (void _) {
+        _fetching = true;
+        _error = false;
+        _initialized = false;
+    });
+
+    triggerOnAction(initSuccessAction, (Connections connections) {
+        _fetching = false;
+        _initialized = true;
+        _connections = connections;
+    });
+
+    triggerOnAction(authenticateFailureAction, (String errorMessage) {
+      _fetching = false;
+      _error = true;
+      _errorMessage = errorMessage;
+    });
+  }
 }
 
 class LoginStore extends BaseStore {
@@ -148,16 +178,13 @@ class EventsStore extends BaseStore {
   }
 }
 
+final StoreToken initStoreToken = new StoreToken(new InitStore());
 final StoreToken eventStoreToken = new StoreToken(new EventsStore());
 final StoreToken loginStoreToken = new StoreToken(new LoginStore());
 
-final Action<String> initPluginRequestAction = new Action<String>();
-final Action<String> initPluginSuccessAction = new Action<String>();
-final Action<String> initPluginFailureAction = new Action<String>();
-
-final Action<String> initSdkRequestAction = new Action<String>();
-final Action<String> initSdkSuccessAction = new Action<String>();
-final Action<String> initSdkFailureAction = new Action<String>();
+final Action<void>        initRequestAction = new Action<void>();
+final Action<Connections> initSuccessAction = new Action<Connections>();
+final Action<String>      initFailureAction = new Action<String>();
 
 final Action<dynamic> pushNotificationReceivedAction = new Action<dynamic>();
 

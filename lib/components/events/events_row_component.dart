@@ -47,7 +47,7 @@ class EventRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new GestureDetector(
-      onTap: () => _navigateToTimeline(context, this._event.id, this._userId), 
+      onTap: () => null, 
       child: new Card(
         child: new SizedBox(
           height: 160.0,
@@ -67,10 +67,5 @@ class EventRow extends StatelessWidget {
         )
       )
     );
-  }
-
-  _navigateToTimeline(context, int eventId, String userId) {
-    print ("About to navigate to /timeline?eventId=$eventId&userId=$userId");
-    Navigator.pushNamed(context, '/timeline?eventId=$eventId&userId=$userId');
   }
 }

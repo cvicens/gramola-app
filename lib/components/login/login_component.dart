@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:gramola/model/subject.dart';
 
-import 'package:gramola/config/connections.dart';
 import 'package:gramola/config/stores.dart';
 
 const String BACKGROUND_PHOTO = 'images/background.jpg';
@@ -48,6 +47,7 @@ class _LoginComponentState extends State<LoginComponent>
   final formKey = new GlobalKey<FormState>();
 
   // Never write to these stores directly. Use Actions.
+  InitStore initStore;
   LoginStore loginStore;
 
   String _email;
@@ -57,6 +57,7 @@ class _LoginComponentState extends State<LoginComponent>
   void initState() {
     super.initState();
 
+    initStore = listenToStore(initStoreToken);
     loginStore = listenToStore(loginStoreToken);
   }
 
@@ -73,15 +74,19 @@ class _LoginComponentState extends State<LoginComponent>
   void _performLogin() async {
     try {
       authenticateRequestAction(_email);
-      dynamic response = await http.post(Connections.loginApi, body: {"email": _email, "password": _password});
-      print("Response status: ${response.statusCode}");
-      //print("Response body: ${response.body}");
-      if (response.statusCode == 200) {
-        authenticateSuccessAction(Subject.fromJson(json.decode(response.body)));
+      if (initStore.connections.loginApi == null || initStore.connections.loginApi == 'dummy') {
+        authenticateSuccessAction(Subject.fromJson(json.decode("{\"userId\": \"trever\", \"sessionToken\": \"123456789\"}")));
       } else {
-        authenticateFailureAction('Error: ' + response.statusCode);
-        _showSnackbar('Authentication failed!');    
-      }
+        dynamic response = await http.post(initStore.connections.loginApi, body: {"email": _email, "password": _password});
+        print("Response status: ${response.statusCode}");
+        //print("Response body: ${response.body}");
+        if (response.statusCode == 200) {
+          authenticateSuccessAction(Subject.fromJson(json.decode(response.body)));
+        } else {
+          authenticateFailureAction('Error: ' + response.statusCode);
+          _showSnackbar('Authentication failed!');    
+        }
+      }      
       Navigator.pushNamed(scaffoldKey.currentContext, '/events?country=SPAIN&city=MADRID');
     } on PlatformException catch (e) {
       authenticateFailureAction(e.message);
@@ -121,8 +126,8 @@ class _LoginComponentState extends State<LoginComponent>
             ),
             const SizedBox(height: 32.0),
             new RaisedButton(
-              child: new Text('Login'),
-              onPressed: _submit
+              child: new Text(initStore.isInitialized ? 'Login' : 'Init in progess...'),
+              onPressed: initStore.isInitialized ? _submit : null
             ),
             const Expanded(child: const SizedBox()),
           ],
