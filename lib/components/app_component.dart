@@ -57,7 +57,7 @@ class AppComponentState extends State<AppComponent>
         initSuccessAction(connections);
       } else {
         initFailureAction('Error: no connections available');
-        //_showSnackbar('Init failed!');    
+        //_showSnackbar('Init failed!');
       }
     } on PlatformException catch (e) {
       initFailureAction(e.message);
