@@ -88,10 +88,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "05ff0f15f3e180b2e9a02f120b0627465c457513"
+      resolved-ref: "1e729710c4e7a6a7ad17bf59794be71d7a5cd58c"
       url: "https://github.com/google/flutter_flux"
     source: git
-    version: "4.1.1"
+    version: "4.1.2"
   flutter_test:
     dependency: "direct dev"
     description: flutter

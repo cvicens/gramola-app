@@ -1,5 +1,4 @@
 {
-    "loginApi" : "http://demo2703148.mockable.io/api/login",
-    "eventsApi" : "http://events-gramola-cicd.apps.192.168.50.100.nip.io/api/events",
-    "imagesApi" : "http://files-gramola-cicd.apps.192.168.50.100.nip.io/api/files"
+    "eventsApi" : "http://events-user1-gramola-cicd.apps.madrid.openshiftworkshop.com/api/events",
+    "imagesApi" : "http://files-user1-gramola-cicd.apps.madrid.openshiftworkshop.com/api/files"
 }

@@ -8,7 +8,6 @@ import 'package:gramola/model/event.dart';
 
 import 'package:http/http.dart' as http;
 
-import 'package:gramola/config/connections.dart';
 import 'package:gramola/config/stores.dart';
 
 import 'package:gramola/components/events/events_row_component.dart';

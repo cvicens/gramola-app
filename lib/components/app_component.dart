@@ -57,20 +57,18 @@ class AppComponentState extends State<AppComponent>
         initSuccessAction(connections);
       } else {
         initFailureAction('Error: no connections available');
-        //_showSnackbar('Authentication failed!');    
+        //_showSnackbar('Init failed!');    
       }
     } on PlatformException catch (e) {
       initFailureAction(e.message);
-      //_showSnackbar('Authentication failed!');
+      //_showSnackbar('Init failed!');
     }
   }
 
-    
   void handleEventStoreChanged(Store store) {
     EventsStore eventStore = store;
     if (eventStore.currentEvent == null) {
         // Cleaning
-        print('>>>> Sample store-changed handler');
     }
     setState(() {});
   }
