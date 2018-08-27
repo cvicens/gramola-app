@@ -1,0 +1,5 @@
+{
+    "eventsApi" : "http://events-user1-gramola-cicd.apps.madrid.openshiftworkshop.com/api/events",
+    "imagesApi" : "http://files-user1-gramola-cicd.apps.madrid.openshiftworkshop.com/api/files",
+    "timelineApi" : "http://timeline-user1-gramola-cicd.apps.madrid.openshiftworkshop.com/api/timeline"
+}

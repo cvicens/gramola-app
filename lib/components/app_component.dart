@@ -65,6 +65,7 @@ class AppComponentState extends State<AppComponent>
     }
   }
 
+    
   void handleEventStoreChanged(Store store) {
     EventsStore eventStore = store;
     if (eventStore.currentEvent == null) {

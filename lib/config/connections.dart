@@ -7,24 +7,31 @@ class Connections {
   final String loginApi;
   final String eventsApi;
   final String imagesApi;
+  final String timelineApi;
 
-  const Connections({this.loginApi, this.eventsApi, this.imagesApi});
+  static Connections _connections;
+
+  const Connections({this.loginApi, this.eventsApi, this.imagesApi, this.timelineApi});
 
   factory Connections.fromJson(Map<String, dynamic> json) {
     return new Connections(
       loginApi:  json['loginApi'],
       eventsApi: json['eventsApi'],
-      imagesApi: json['imagesApi']
+      imagesApi: json['imagesApi'],
+      timelineApi: json['timelineApi']
     );
   }
 
   static Future<Connections> initConnections() async {
-    String connectionsString = await rootBundle.loadString('data/connections.json');
-  
-    Map<String, dynamic> json = (new JsonCodec()).decode(connectionsString);
-    
-    return new Connections.fromJson (json);
+    if (Connections._connections == null) {
+      String connectionsString = await rootBundle.loadString('data/connections.json');
+      Map<String, dynamic> json = (new JsonCodec()).decode(connectionsString);
+        
+      Connections._connections = new Connections.fromJson (json);
+    }
+
+    return Connections._connections;
   }
+
+  static Connections get connections => Connections._connections;
 }
-
-
