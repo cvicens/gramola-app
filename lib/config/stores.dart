@@ -92,8 +92,8 @@ class LoginStore extends BaseStore {
 class EventsStore extends BaseStore {
   LocationEnum _location = LocationEnum.madrid;
 
-  String _currentCountry = 'SPAIN';
-  String _currentCity = 'MADRID';
+  String _currentCountry = 'ANY';
+  String _currentCity = 'ANY';
 
   String _imagesBaseUrl;
 

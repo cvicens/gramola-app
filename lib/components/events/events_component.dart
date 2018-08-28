@@ -22,7 +22,7 @@ class EventsComponent extends StatefulWidget {
   final String city;
 
   @override
-  _EventsComponentState createState() => new _EventsComponentState();
+  _EventsComponentState createState() => new _EventsComponentState(country: country, city: country);
 }
 
 class _EventsComponentState extends State<EventsComponent> 
@@ -30,7 +30,12 @@ class _EventsComponentState extends State<EventsComponent>
 
   final scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  final GlobalKey<AnimatedListState> _listKey = new GlobalKey<AnimatedListState>();
+  _EventsComponentState({String country, String city})
+      : this.country = country,
+        this.city = city;
+
+  final String country;
+  final String city;
 
   // Never write to these stores directly. Use Actions.
   InitStore initStore;
@@ -45,8 +50,8 @@ class _EventsComponentState extends State<EventsComponent>
     eventsStore = listenToStore(eventStoreToken);
     loginStore = listenToStore(loginStoreToken);
 
-    setLocationAction(new Location(country: 'ANY', city: 'ANY'));
-    _fetchAllEvents();
+    setLocationAction(new Location(country: country, city: city));
+    _fetchEvents(country, city);
   }
 
   void _fetchAllEvents() {

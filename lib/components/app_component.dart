@@ -42,7 +42,7 @@ class AppComponentState extends State<AppComponent>
     super.initState();
 
     initStore = listenToStore(initStoreToken);
-    eventsStore = listenToStore(eventStoreToken, handleEventStoreChanged);
+    eventsStore = listenToStore(eventStoreToken);
 
     // Init class, resources...
     _init();
@@ -52,12 +52,16 @@ class AppComponentState extends State<AppComponent>
     try {
       initRequestAction();
       Connections connections = await Connections.initConnections();
-      print("Connections: ${connections}");
       if (connections != null) {
+        print("Connections: \nlogin: ${connections.loginApi}\nevents: ${connections.eventsApi}\nimages: ${connections.imagesApi}\ntimeline: ${connections.timelineApi}");
         initSuccessAction(connections);
       } else {
         initFailureAction('Error: no connections available');
+<<<<<<< HEAD
         //_showSnackbar('Init failed!');
+=======
+        //_showSnackbar('Init failed!');    
+>>>>>>> phase_2
       }
     } on PlatformException catch (e) {
       initFailureAction(e.message);
@@ -65,6 +69,7 @@ class AppComponentState extends State<AppComponent>
     }
   }
 
+<<<<<<< HEAD
     
   void handleEventStoreChanged(Store store) {
     EventsStore eventStore = store;
@@ -74,6 +79,8 @@ class AppComponentState extends State<AppComponent>
     setState(() {});
   }
 
+=======
+>>>>>>> phase_2
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
@@ -82,7 +89,6 @@ class AppComponentState extends State<AppComponent>
       theme: gramolaTheme,
       onGenerateRoute: Application.router.generator,
     );
-    print("initial route = ${app.initialRoute}");
     return app;
   }
 }

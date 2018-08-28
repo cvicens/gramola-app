@@ -78,16 +78,14 @@ class _LoginComponentState extends State<LoginComponent>
         authenticateSuccessAction(Subject.fromJson(json.decode("{\"userId\": \"trever\", \"sessionToken\": \"123456789\"}")));
       } else {
         dynamic response = await http.post(initStore.connections.loginApi, body: {"email": _email, "password": _password});
-        print("Response status: ${response.statusCode}");
-        //print("Response body: ${response.body}");
         if (response.statusCode == 200) {
           authenticateSuccessAction(Subject.fromJson(json.decode(response.body)));
         } else {
           authenticateFailureAction('Error: ' + response.statusCode);
           _showSnackbar('Authentication failed!');    
         }
-      }      
-      Navigator.pushNamed(scaffoldKey.currentContext, '/events?country=SPAIN&city=MADRID');
+      }
+      Navigator.pushNamed(scaffoldKey.currentContext, '/events?country=ANY&city=ANY');
     } on PlatformException catch (e) {
       authenticateFailureAction(e.message);
       _showSnackbar('Authentication failed!');
