@@ -57,11 +57,7 @@ class AppComponentState extends State<AppComponent>
         initSuccessAction(connections);
       } else {
         initFailureAction('Error: no connections available');
-<<<<<<< HEAD
-        //_showSnackbar('Init failed!');
-=======
         //_showSnackbar('Init failed!');    
->>>>>>> phase_2
       }
     } on PlatformException catch (e) {
       initFailureAction(e.message);
@@ -69,18 +65,6 @@ class AppComponentState extends State<AppComponent>
     }
   }
 
-<<<<<<< HEAD
-    
-  void handleEventStoreChanged(Store store) {
-    EventsStore eventStore = store;
-    if (eventStore.currentEvent == null) {
-        // Cleaning
-    }
-    setState(() {});
-  }
-
-=======
->>>>>>> phase_2
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
