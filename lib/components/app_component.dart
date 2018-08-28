@@ -42,7 +42,7 @@ class AppComponentState extends State<AppComponent>
     super.initState();
 
     initStore = listenToStore(initStoreToken);
-    eventsStore = listenToStore(eventStoreToken, handleEventStoreChanged);
+    eventsStore = listenToStore(eventStoreToken);
 
     // Init class, resources...
     _init();
@@ -52,27 +52,17 @@ class AppComponentState extends State<AppComponent>
     try {
       initRequestAction();
       Connections connections = await Connections.initConnections();
-      print("Connections: ${connections}");
       if (connections != null) {
+        print("Connections: \nlogin: ${connections.loginApi}\nevents: ${connections.eventsApi}\nimages: ${connections.imagesApi}\ntimeline: ${connections.timelineApi}");
         initSuccessAction(connections);
       } else {
         initFailureAction('Error: no connections available');
-        //_showSnackbar('Authentication failed!');    
+        //_showSnackbar('Init failed!');    
       }
     } on PlatformException catch (e) {
       initFailureAction(e.message);
-      //_showSnackbar('Authentication failed!');
+      //_showSnackbar('Init failed!');
     }
-  }
-
-    
-  void handleEventStoreChanged(Store store) {
-    EventsStore eventStore = store;
-    if (eventStore.currentEvent == null) {
-        // Cleaning
-        print('>>>> Sample store-changed handler');
-    }
-    setState(() {});
   }
 
   @override
@@ -83,7 +73,6 @@ class AppComponentState extends State<AppComponent>
       theme: gramolaTheme,
       onGenerateRoute: Application.router.generator,
     );
-    print("initial route = ${app.initialRoute}");
     return app;
   }
 }
